@@ -31,7 +31,7 @@
     font-family: 'Cinzel', serif;
 }
 
-.close-side-panel {
+.close-side-panel, .close-fondation-panel {
     background: none;
     border: none;
     color: white;
@@ -39,10 +39,21 @@
     cursor: pointer;
 }
 
-.poi-list {
+.poi-list, .fondation-poi-list, .explorer-content {
     padding: 15px;
     overflow-y: auto;
     flex: 1;
+}
+
+/* Fondation content - sticky sur desktop */
+.fondation-content {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1000;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    flex-shrink: 0;
 }
 
 .poi-card {

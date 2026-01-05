@@ -303,7 +303,7 @@ function initFilters() {
         // Si on clique en dehors du panneau ET du bouton toggle
         if (!filtersPanel.contains(e.target) && !toggleBtn.contains(e.target)) {
             // Ne fermer que sur mobile et seulement si le panneau est ouvert
-            if (window.innerWidth <= 992 && filtersPanel.classList.contains('active')) {
+            if (window.innerWidth <= 1024 && filtersPanel.classList.contains('active')) {
                 // Vérifier si on clique sur la carte ou ses contrôles
                 const mapContainer = document.getElementById('map-container');
                 if (mapContainer.contains(e.target)) {
@@ -317,7 +317,7 @@ function initFilters() {
     // Assurer que les filtres sont visibles par défaut sur desktop
     function adjustFiltersVisibility() {
         const filtersPanel = document.querySelector('.filters-panel');
-        if (window.innerWidth > 992) {
+        if (window.innerWidth > 1024) {
             filtersPanel.classList.add('active');
         } else {
             // Sur mobile, ne pas fermer automatiquement

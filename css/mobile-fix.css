@@ -1,72 +1,40 @@
-/* Corrections simples pour mobile */
-@media (max-width: 768px) {
-  /* Amélioration de la taille des textes */
-  .leaflet-popup-content {
-    font-size: 16px;
-    line-height: 1.5;
-    max-height: 70vh;
-    overflow-y: auto;
-    width: auto !important;
-    min-width: 200px;
-    max-width: 90vw;
+@media (max-width: 1024px) {
+  .filters-panel {
+    display: none !important;
   }
   
-  .leaflet-popup {
-    max-width: 90vw;
+  .toggle-filters-btn {
+    display: none !important;
   }
   
-  .leaflet-popup-content h3 {
-    font-size: 18px;
+  .mobile-explorer-btn {
+    display: flex !important;
   }
   
-  .leaflet-popup-content p {
-    font-size: 16px;
+  .side-panel {
+    max-width: 100vw !important;
+    width: 100vw !important;
   }
   
-  /* Adaptation des images dans les popups */
-  .popup-image {
-    width: 100%;
-    max-width: 200px;
-    margin: 0 auto;
+  .poi-list, .explorer-content {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
   }
   
-  .popup-image img {
-    max-width: 100%;
-    max-height: 150px;
-    object-fit: contain;
+  /* S'assurer que tous les panneaux latéraux restent fermés par défaut */
+  #fondation-panel:not(.active),
+  #side-panel:not(.active),
+  #explorer-panel:not(.active) {
+    right: -100vw !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .mobile-explorer-btn {
+    display: none !important;
   }
   
-  /* Adaptation du conteneur de popup */
-  .popup-container {
-    flex-direction: column;
-  }
-  
-  .popup-text {
-    width: 100%;
-    padding-right: 0;
-    padding-bottom: 10px;
-  }
-  
-  /* Amélioration des boutons et contrôles */
-  .leaflet-popup-close-button {
-    font-size: 22px !important;
-    padding: 4px 4px 0 0 !important;
-  }
-  
-  .leaflet-control-zoom a {
-    font-size: 18px;
-    width: 30px !important;
-    height: 30px !important;
-    line-height: 30px !important;
-  }
-  
-  /* Amélioration des filtres */
-  .filter-options label {
-    padding: 8px 0;
-  }
-  
-  .filter-options input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
+  #explorer-panel {
+    display: none !important;
   }
 }

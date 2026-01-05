@@ -186,33 +186,12 @@
 
 /* Adaptation mobile */
 @media (max-width: 992px) {
-    .filters-panel {
-        transform: translateX(-100%);
-        /* Améliorer la persistance du panneau */
-        backdrop-filter: blur(2px);
-    }
-    
-    .filters-panel.active {
-        transform: translateX(0);
-        /* Ajouter un overlay pour éviter les clics accidentels */
-    }
-    
-    .filters-panel.active::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 320px;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.1);
-        z-index: -1;
-        pointer-events: none;
-    }
-    
     .toggle-filters-btn {
         display: flex;
     }
 }
+
+/* Pas de règles spécifiques pour mobile ici - tout dans mobile-fix.css */
 
 /* Ajustements pour les contrôles Leaflet */
 .leaflet-control-zoom {
