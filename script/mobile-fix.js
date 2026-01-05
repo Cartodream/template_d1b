@@ -15,6 +15,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Gestionnaires pour les titres de groupes (accordéon) dans le panneau explorer - DÉLÉGATION D'ÉVÉNEMENTS
+    explorerPanel.addEventListener('click', function(e) {
+        if (e.target.classList.contains('filter-title')) {
+            e.target.classList.toggle('active');
+            const options = e.target.nextElementSibling;
+            if (options && options.classList.contains('filter-options')) {
+                options.style.display = options.style.display === 'none' ? 'block' : 'none';
+            }
+        }
+    });
+    
     // Gestionnaires pour les boutons dans le panneau explorer mobile
     const explorerSelectAll = explorerPanel.querySelector('.select-all');
     const explorerDeselectAll = explorerPanel.querySelector('.deselect-all');
@@ -61,15 +72,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Déclencher l'événement change sur la case principale
                 mainCheckbox.dispatchEvent(new Event('change'));
             }
-        });
-    });
-    
-    // Gestionnaires pour les titres de groupes (accordéon) dans le panneau explorer
-    explorerPanel.querySelectorAll('.filter-title').forEach(title => {
-        title.addEventListener('click', function() {
-            this.classList.toggle('active');
-            const options = this.nextElementSibling;
-            options.style.display = options.style.display === 'none' ? 'block' : 'none';
         });
     });
 });

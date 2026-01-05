@@ -27,6 +27,15 @@
   #explorer-panel:not(.active) {
     right: -100vw !important;
   }
+  
+  /* Forcer toutes les catégories à rester ouvertes dans l'explorer mobile */
+  #explorer-panel .filter-options {
+    display: block !important;
+  }
+  
+  #explorer-panel .filter-title {
+    pointer-events: none;
+  }
 }
 
 @media (min-width: 1025px) {
