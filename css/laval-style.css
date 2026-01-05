@@ -108,6 +108,25 @@
 
 .filter-options label {
     font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    padding: 4px 0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.filter-options label:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+}
+
+.filter-options input[type="checkbox"]:checked + span {
+    font-weight: 600;
+    color: rgb(196, 214, 0);
+}
+
+.filter-options input[type="checkbox"] {
+    margin-right: 8px;
 }
 
 /* Boutons de filtres */
@@ -169,10 +188,25 @@
 @media (max-width: 992px) {
     .filters-panel {
         transform: translateX(-100%);
+        /* Améliorer la persistance du panneau */
+        backdrop-filter: blur(2px);
     }
     
     .filters-panel.active {
         transform: translateX(0);
+        /* Ajouter un overlay pour éviter les clics accidentels */
+    }
+    
+    .filters-panel.active::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 320px;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.1);
+        z-index: -1;
+        pointer-events: none;
     }
     
     .toggle-filters-btn {
@@ -231,4 +265,28 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+}
+/* Volet droit - Override side-panel.css */
+.side-panel {
+    position: fixed !important;
+    top: 100px !important;
+    right: -400px !important;
+    width: 400px !important;
+    height: calc(100vh - 100px) !important;
+    max-height: calc(100vh - 100px) !important;
+    overflow: hidden !important;
+}
+
+.side-panel.active {
+    right: 0 !important;
+}
+
+.side-panel::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background-color: #c4d600;
 }

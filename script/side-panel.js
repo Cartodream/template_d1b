@@ -3,20 +3,34 @@ document.addEventListener('DOMContentLoaded', function() {
     // Références aux éléments
     const toggleListBtn = document.getElementById('toggle-list-btn');
     const sidePanel = document.getElementById('side-panel');
+    const closeSidePanel = document.querySelector('.close-side-panel');
     const poiListContainer = document.getElementById('poi-list');
     
     // Fonction pour ouvrir/fermer le panneau
     toggleListBtn.addEventListener('click', function() {
+        const panelHeader = sidePanel.querySelector('.side-panel-header h2');
+        panelHeader.textContent = 'Liste des points d\'intérêt';
         sidePanel.classList.toggle('active');
-        window.updatePoiList();
+        updatePoiList();
     });
     
-    // Le bouton de fermeture a été supprimé
+    // Fonction pour fermer le panneau
+    closeSidePanel.addEventListener('click', function() {
+        sidePanel.classList.remove('active');
+        // Supprimer l'effet de toutes les icônes
+        document.querySelectorAll('.marker-active').forEach(el => {
+            el.classList.remove('marker-active');
+        });
+        // Supprimer les zones d'orchidées
+        if (typeof removeOrchideeZones === 'function') {
+            removeOrchideeZones();
+        }
+    });
     
     // Fonction pour mettre à jour la liste des POIs en fonction des filtres
-    window.updatePoiList = function() {
+    function updatePoiList() {
         // Vider la liste
-        poiListContainer.innerHTML = '<div class="info-message">Cliquez sur un point d\'intérêt pour plus d\'information</div>';
+        poiListContainer.innerHTML = '';
         
         // Récupérer les filtres actifs
         const activeFilters = {};
@@ -76,16 +90,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="poi-content">
                     <h3 class="poi-title">${properties.nom}</h3>
                     <span class="poi-category">${properties.sous_cat}</span>
-                    <p class="poi-description">${properties.descriptif || 'Aucune description disponible.'}</p>
                     <div class="poi-location">
                         <i class="fas fa-map-marker-alt"></i> ${properties.commune || ''}
                         ${properties.adresse ? ` - ${properties.adresse}` : ''}
                     </div>
-                    <a href="#" class="poi-button" data-id="${properties.id}">Voir sur la carte</a>
+                    <a href="#" class="poi-button" data-id="${properties.id}">Plus d'informations</a>
                 </div>
             `;
             
-            // Ajouter un gestionnaire d'événements pour le bouton "Voir sur la carte"
+            // Ajouter un gestionnaire d'événements pour le bouton "Plus d'informations"
             const viewButton = card.querySelector('.poi-button');
             viewButton.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -93,24 +106,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Centrer la carte sur ce POI
                 map.setView([poi.geometry.coordinates[1], poi.geometry.coordinates[0]], 16);
                 
-                // Trouver le marqueur correspondant
-                if (typeof allMarkers !== 'undefined') {
-                    for (const category in allMarkers) {
-                        for (const subcategory in allMarkers[category]) {
-                            const marker = allMarkers[category][subcategory].find(m => 
-                                m.getLatLng().lat === poi.geometry.coordinates[1] && 
-                                m.getLatLng().lng === poi.geometry.coordinates[0]
-                            );
-                            if (marker) {
-                                // Afficher les détails dans le panneau latéral
-                                if (typeof window.showPoiDetails === 'function') {
-                                    window.showPoiDetails(marker.poiData);
-                                }
-                                return;
-                            }
-                        }
-                    }
-                }
+                // Afficher dans le volet droit
+                showPoiInSidePanel(properties);
             });
             
             poiListContainer.appendChild(card);
@@ -138,18 +135,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="poi-content">
                     <h3 class="poi-title">${properties.nom}</h3>
                     <span class="poi-category">Etangs et Rivières</span>
-                    <p class="poi-description">${properties.descriptif || 'Aucune description disponible.'}</p>
                     <div class="poi-location">
                         <i class="fas fa-water"></i> Cours d'eau
                     </div>
-                    <a href="#" class="poi-button riviere-button">Voir sur la carte</a>
+                    <a href="#" class="poi-button riviere-button">Plus d'informations</a>
                 </div>
             `;
             
-            // Ajouter un gestionnaire d'événements pour le bouton "Voir sur la carte"
+            // Ajouter un gestionnaire d'événements pour le bouton "Plus d'informations"
             const viewButton = card.querySelector('.poi-button');
             viewButton.addEventListener('click', function(e) {
                 e.preventDefault();
+                
+                // Afficher dans le volet droit
+                showPoiInSidePanel(properties);
                 
                 // Calculer les limites de la rivière pour l'afficher entièrement
                 if (riviere.geometry) {
@@ -191,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.filter-options input[type="checkbox"]').forEach(checkbox => {
         checkbox.addEventListener('change', function() {
             if (sidePanel.classList.contains('active')) {
-                window.updatePoiList();
+                updatePoiList();
             }
         });
     });
@@ -199,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Écouter l'événement personnalisé pour les changements de filtres
     document.addEventListener('filtersChanged', function() {
         if (sidePanel.classList.contains('active')) {
-            window.updatePoiList();
+            updatePoiList();
         }
     });
 });

@@ -1,47 +1,10 @@
 /**
  * Script combiné pour la gestion de la lightbox et du diaporama
  */
-
-// Fonction globale pour ouvrir la lightbox (utilisée par le panneau de détails)
-window.openLightbox = function(imgElement) {
-    const modal = document.querySelector('.image-modal');
-    const modalImg = document.getElementById('modal-img');
-    const slideshowControls = document.querySelector('.slideshow-controls');
-    const slideCounter = document.querySelector('.slide-counter');
-    
-    // Récupérer les images
-    const img1 = imgElement.getAttribute('data-full-img');
-    let slideImages = [img1];
-    
-    // Ajouter toutes les photos supplémentaires si elles existent
-    for (let i = 2; i <= 13; i++) {
-        const img = imgElement.getAttribute(`data-photo${i}`);
-        if (img && img !== '' && img !== 'null') {
-            slideImages.push(img);
-        }
-    }
-    
-    // Afficher la première image
-    window.currentSlideIndex = 0;
-    modalImg.src = slideImages[0];
-    modal.style.display = 'flex';
-    
-    // Stocker les images pour la navigation
-    window.slideImages = slideImages;
-    
-    // Afficher les contrôles du diaporama uniquement s'il y a plus d'une image
-    if (slideImages.length > 1) {
-        slideshowControls.style.display = 'flex';
-        slideCounter.textContent = `1/${slideImages.length}`;
-    } else {
-        slideshowControls.style.display = 'none';
-    }
-};
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Variables pour le diaporama (définies globalement dans openLightbox)
-    if (!window.currentSlideIndex) window.currentSlideIndex = 0;
-    if (!window.slideImages) window.slideImages = [];
+    // Variables pour le diaporama
+    let currentSlideIndex = 0;
+    let slideImages = [];
 
     // Éléments du DOM
     const modal = document.querySelector('.image-modal');
@@ -68,29 +31,49 @@ document.addEventListener('DOMContentLoaded', function() {
     // Navigation dans le diaporama
     prevButton.addEventListener('click', function(e) {
         e.stopPropagation();
-        if (window.slideImages.length <= 1) return;
+        if (slideImages.length <= 1) return;
         
         // Basculer entre les images
-        window.currentSlideIndex = (window.currentSlideIndex === 0) ? (window.slideImages.length - 1) : (window.currentSlideIndex - 1);
-        modalImg.src = window.slideImages[window.currentSlideIndex];
-        slideCounter.textContent = `${window.currentSlideIndex + 1}/${window.slideImages.length}`;
+        currentSlideIndex = (currentSlideIndex === 0) ? (slideImages.length - 1) : (currentSlideIndex - 1);
+        modalImg.src = slideImages[currentSlideIndex];
+        slideCounter.textContent = `${currentSlideIndex + 1}/${slideImages.length}`;
     });
     
     nextButton.addEventListener('click', function(e) {
         e.stopPropagation();
-        if (window.slideImages.length <= 1) return;
+        if (slideImages.length <= 1) return;
         
         // Basculer entre les images
-        window.currentSlideIndex = (window.currentSlideIndex === window.slideImages.length - 1) ? 0 : (window.currentSlideIndex + 1);
-        modalImg.src = window.slideImages[window.currentSlideIndex];
-        slideCounter.textContent = `${window.currentSlideIndex + 1}/${window.slideImages.length}`;
+        currentSlideIndex = (currentSlideIndex === slideImages.length - 1) ? 0 : (currentSlideIndex + 1);
+        modalImg.src = slideImages[currentSlideIndex];
+        slideCounter.textContent = `${currentSlideIndex + 1}/${slideImages.length}`;
     });
     
     // Délégation d'événements pour les images dans les popups
     document.addEventListener('click', function(event) {
         if (event.target && event.target.classList.contains('popup-thumbnail')) {
-            // Utiliser la fonction openLightbox pour ouvrir la lightbox
-            window.openLightbox(event.target);
+            const img1 = event.target.getAttribute('data-full-img');
+            slideImages = [img1];
+            
+            // Ajouter toutes les photos supplémentaires si elles existent
+            for (let i = 2; i <= 13; i++) {
+                const img = event.target.getAttribute(`data-photo${i}`);
+                if (img && img !== '' && img !== 'null') {
+                    slideImages.push(img);
+                }
+            }
+            
+            currentSlideIndex = 0;
+            modalImg.src = slideImages[0];
+            modal.style.display = 'flex';
+            
+            // Afficher les contrôles du diaporama uniquement s'il y a plus d'une image
+            if (slideImages.length > 1) {
+                slideshowControls.style.display = 'flex';
+                slideCounter.textContent = `1/${slideImages.length}`;
+            } else {
+                slideshowControls.style.display = 'none';
+            }
         }
     });
     

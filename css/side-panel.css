@@ -1,23 +1,20 @@
 .side-panel {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 10px;
-    width: 400px;  /* Augmenté de 350px à 400px - volet droit */
-    height: 60%;   /* Réduit de 70% à 60% */
+    position: fixed;
+    top: 100px;
+    right: -400px;
+    width: 400px;
+    height: calc(100vh - 100px);
     background-color: #fff;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    z-index: 1000;
-    display: none; /* Caché par défaut */
+    box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+    transition: right 0.3s ease;
+    z-index: 900;
+    display: flex;
     flex-direction: column;
-    border-radius: 5px;
-    margin-top: 40px;
 }
 
 .side-panel.active {
-    display: flex; /* Affiché quand la classe active est présente */
+    right: 0;
 }
-
 
 .side-panel-header {
     padding: 15px;
@@ -108,12 +105,4 @@
 
 .poi-button:hover {
     background-color: #6B8A52;
-}
-
-.info-message {
-    text-align: center;
-    padding: 20px;
-    color: #666;
-    font-style: italic;
-    font-family: 'Raleway', sans-serif;
 }

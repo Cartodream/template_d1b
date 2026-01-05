@@ -66,8 +66,6 @@ function initMap() {
                 fillOpacity: 0.5
             }
         });
-        // Exposer la variable globalement
-        window.bassinVesgreLayer = bassinVesgreLayer;
     }
     // Initialisation de la couche du bassin de la Vaucouleurs
     if (typeof json_COMMUNE_1 !== 'undefined') {
@@ -80,8 +78,6 @@ function initMap() {
                 fillOpacity: 0.5
             }
         });
-        // Exposer la variable globalement
-        window.bassinVaucouleursLayer = bassinVaucouleursLayer;
     }
     // Ajout des sentiers/rivières
     if (typeof rivieres_opth !== 'undefined') {
@@ -96,20 +92,9 @@ function initMap() {
             style: sentierStyle,
             onEachFeature: function(feature, layer) {
                 if (feature.properties && feature.properties.nom) {
-                    // Ajouter un gestionnaire d'événements pour afficher les détails dans le volet droit
-                    layer.on('click', function(e) {
-                        // Empêcher la propagation de l'événement pour éviter que la carte ne ferme le volet
-                        L.DomEvent.stopPropagation(e);
-                        // Afficher le panneau latéral
-                        const sidePanel = document.getElementById('side-panel');
-                        if (sidePanel) {
-                            sidePanel.classList.add('active');
-                        }
-                        
-                        // Afficher les détails dans le panneau latéral
-                        if (typeof window.showPoiDetails === 'function') {
-                            window.showPoiDetails(feature.properties);
-                        }
+                    // Afficher dans le volet droit au lieu du popup
+                    layer.on('click', function() {
+                        showPoiInSidePanel(feature.properties);
                     });
                 }
             }
@@ -149,7 +134,7 @@ function createCustomIcon(category) {
         iconUrl: `image/${iconName}.png`,
         iconSize: [25, 25],
         iconAnchor: [12, 12],
-        popupAnchor: [0, -12]
+        popupAnchor: [15, 0]
     });
 }
 
@@ -310,13 +295,33 @@ function initFilters() {
         document.querySelector('.filters-panel').classList.remove('active');
     });
     
+    // Empêcher la fermeture du panneau quand on clique sur la carte
+    document.addEventListener('click', function(e) {
+        const filtersPanel = document.querySelector('.filters-panel');
+        const toggleBtn = document.querySelector('.toggle-filters-btn');
+        
+        // Si on clique en dehors du panneau ET du bouton toggle
+        if (!filtersPanel.contains(e.target) && !toggleBtn.contains(e.target)) {
+            // Ne fermer que sur mobile et seulement si le panneau est ouvert
+            if (window.innerWidth <= 992 && filtersPanel.classList.contains('active')) {
+                // Vérifier si on clique sur la carte ou ses contrôles
+                const mapContainer = document.getElementById('map-container');
+                if (mapContainer.contains(e.target)) {
+                    // Ne pas fermer automatiquement, laisser l'utilisateur contrôler
+                    return;
+                }
+            }
+        }
+    });
+    
     // Assurer que les filtres sont visibles par défaut sur desktop
     function adjustFiltersVisibility() {
         const filtersPanel = document.querySelector('.filters-panel');
         if (window.innerWidth > 992) {
             filtersPanel.classList.add('active');
         } else {
-            filtersPanel.classList.remove('active');
+            // Sur mobile, ne pas fermer automatiquement
+            // filtersPanel.classList.remove('active');
         }
     }
     
@@ -413,9 +418,6 @@ function deselectAllFilters() {
         categoryFilters[category][subcategory] = false;
     });
     
-    // Déclencher l'événement de fermeture des bassins pour masquer les couches et remettre les marqueurs dans le cluster
-    document.dispatchEvent(new Event('closeBassin'));
-    
     updateMarkers();
     
     // Mettre à jour le panneau latéral s'il est ouvert
@@ -431,27 +433,4 @@ function deselectAllFilters() {
 document.addEventListener('DOMContentLoaded', function() {
     // Initialisation de la carte
     initMap();
-    
-    // Ajouter un gestionnaire d'événements pour fermer le volet droit et masquer les couches lorsqu'on clique ailleurs sur la carte
-    map.on('click', function(e) {
-        // Vérifier si le clic n'est pas sur un marqueur ou une rivière
-        if (!e.originalEvent.defaultPrevented) {
-            // Fermer le volet droit
-            const sidePanel = document.getElementById('side-panel');
-            if (sidePanel && sidePanel.classList.contains('active')) {
-                sidePanel.classList.remove('active');
-            }
-            
-            // Masquer les couches des bassins
-            if (window.bassinVaucouleursLayer && map.hasLayer(window.bassinVaucouleursLayer)) {
-                map.removeLayer(window.bassinVaucouleursLayer);
-            }
-            if (window.bassinVesgreLayer && map.hasLayer(window.bassinVesgreLayer)) {
-                map.removeLayer(window.bassinVesgreLayer);
-            }
-            
-            // Déclencher l'événement de fermeture des bassins pour remettre les marqueurs dans le cluster
-            document.dispatchEvent(new Event('closeBassin'));
-        }
-    });
 });

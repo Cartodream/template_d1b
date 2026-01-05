@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carte Interactive - Style Viking</title>
+    <title>Carte Interactive - OPTH</title>
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -27,12 +27,9 @@
     <link rel="stylesheet" href="css/laval-style.css">
     <!-- 3. Composants (chargement direct optimisé) -->
     <link rel="stylesheet" href="css/side-panel.css">
-    <link rel="stylesheet" href="css/detail-panel.css">
     <link rel="stylesheet" href="css/mobile-fix.css">
     <link rel="stylesheet" href="css/map-controls.css">
-    
-    <!-- Correction de position (priorité maximale) -->
-    <link rel="stylesheet" href="css/fix-position.css">
+    <link rel="stylesheet" href="css/popup-effects.css">
     
     <!-- Scripts critiques -->
     <script src="script/force-default-filters.js"></script>
@@ -72,16 +69,16 @@
                     <div class="filter-group">
                         <h3 class="filter-title">Patrimoine Naturel</h3>
                         <div class="filter-options" style="display: none;">
-                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="etangs_et_rivières"> Etangs et Rivières</label>
-                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="effraie"> Effraie</label>
-                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="chevêche"> Chevêche</label>
-                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="flore"> Flore</label>                    
-                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="rapace"> Rapace</label>
-                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="heron"> Héron</label>
-                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="forêts_et_parcs"> Forêts et Parcs</label>
-                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="chauve_souris"> Chauve Souris</label>
-                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="cervidés"> Cervidés</label>
-                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="hirondelle"> Hirondelle</label>
+                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="etangs_et_rivières"><span> Etangs et Rivières</span></label>
+                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="effraie"><span> Effraie</span></label>
+                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="chevêche"><span> Chevêche</span></label>
+                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="flore"><span> Flore</span></label>                    
+                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="rapace"><span> Rapace</span></label>
+                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="heron"><span> Héron</span></label>
+                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="forêts_et_parcs"><span> Forêts et Parcs</span></label>
+                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="chauve_souris"><span> Chauve Souris</span></label>
+                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="cervidés"><span> Cervidés</span></label>
+                            <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="hirondelle"><span> Hirondelle</span></label>
                         </div>
                     </div>
                     
@@ -114,6 +111,12 @@
                 
                 <!-- Contrôles en bas à droite de la carte -->
                 <div class="map-controls">
+                    <button class="map-control-btn" title="Liste" id="toggle-list-btn">
+                        <img src="image/bookmark-icon.svg" alt="Liste">
+                    </button>
+                    <button class="fondation-logo" id="toggle-fondation-btn" title="Fondation">
+                        <img src="image/fondation.jpg" alt="Fondation">
+                    </button>
                 </div>
             </div>
         </div>
@@ -122,15 +125,27 @@
     <!-- Panneau latéral pour la liste des POIs -->
     <div class="side-panel" id="side-panel">
         <div class="side-panel-header">
-            <h2></h2>
+            <h2>Liste des points d'intérêt</h2>
+            <button class="close-side-panel"><i class="fas fa-times"></i></button>
         </div>
         <div class="poi-list" id="poi-list">
-            <div class="info-message">Cliquez sur un point d'intérêt pour plus d'information</div>
             <!-- Les POIs seront générés ici par JavaScript -->
         </div>
     </div>
     
-
+    <!-- Panneau latéral pour la fondation -->
+    <div class="side-panel" id="fondation-panel">
+        <div class="side-panel-header">
+            <h2>Fondation du Patrimoine</h2>
+            <button class="close-fondation-panel"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="fondation-content" style="position: sticky; top: 0; background: white; z-index: 1000; padding: 20px; border-bottom: 1px solid #ddd;">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+        <div class="fondation-poi-list" id="fondation-poi-list">
+            <!-- Les POIs avec fondation_courant seront générés ici -->
+        </div>
+    </div>
 
     <!-- Modal pour l'agrandissement des images -->
     <div class="image-modal">
@@ -172,23 +187,14 @@
     <!-- Script pour la lightbox et le diaporama -->
     <script src="script/combined-lightbox.js"></script>
     
+
+    
     <!-- Script pour gérer le panneau latéral -->
     <script src="script/side-panel.js"></script>
     
-    <!-- Script pour gérer l'affichage des détails dans le panneau latéral -->
-    <script src="script/detail-panel.js"></script>
-
-</body>
-</html>affichage des détails dans le panneau latéral -->
-    <script src="script/detail-panel.js"></script>
-
-</body>
-</html>affichage des détails dans le panneau latéral -->
-    <script src="script/detail-panel.js"></script>
-
-</body>
-</html>affichage des détails dans le panneau latéral -->
-    <script src="script/detail-panel.js"></script>
+    <!-- Script pour gérer le panneau de fondation -->
+    <script src="script/fondation-panel.js"></script>
+    
 
 </body>
 </html>
