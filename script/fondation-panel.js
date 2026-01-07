@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Image
             let imageHtml = '';
             if (properties.photo) {
-                imageHtml = `<img src="${properties.photo}" alt="${properties.nom}" class="poi-image">`;
+                imageHtml = `<img src="${properties.photo}" alt="${properties.nom}" class="poi-card-image">`;
             } else {
                 imageHtml = `<div class="poi-image-placeholder"></div>`;
             }

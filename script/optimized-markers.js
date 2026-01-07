@@ -99,7 +99,20 @@ function showPoiInSidePanel(poiData) {
     content += `<h3>${poiData.nom}</h3>`;
     
     if (poiData.photo) {
-        content += `<img src="${poiData.photo}" alt="${poiData.nom}" class="poi-image" data-full-img="${poiData.photo}">`;
+        content += `<img src="${poiData.photo}" alt="${poiData.nom}" class="poi-detail-image popup-thumbnail" 
+                     data-full-img="${poiData.photo}"
+                     data-photo2="${poiData.photo2 || ''}"
+                     data-photo3="${poiData.photo3 || ''}"
+                     data-photo4="${poiData.photo4 || ''}"
+                     data-photo5="${poiData.photo5 || ''}"
+                     data-photo6="${poiData.photo6 || ''}"
+                     data-photo7="${poiData.photo7 || ''}"
+                     data-photo8="${poiData.photo8 || ''}"
+                     data-photo9="${poiData.photo9 || ''}"
+                     data-photo10="${poiData.photo10 || ''}"
+                     data-photo11="${poiData.photo11 || ''}"
+                     data-photo12="${poiData.photo12 || ''}"
+                     data-photo13="${poiData.photo13 || ''}">`;
     }
     
     if (poiData.descriptif) {
@@ -208,20 +221,11 @@ function createPopupContent(properties) {
 
 // Fonction pour configurer les gestionnaires d'événements pour les bassins
 function setupBassinHandler(marker, bassinLayer) {
-    // Créer la popup pour les marqueurs de bassin
-    if (!marker.getPopup()) {
-        const popupContent = createPopupContent(marker.poiData);
-        marker.bindPopup(popupContent, {
-            maxWidth: window.innerWidth > 768 ? 300 : 250,
-            minWidth: window.innerWidth > 768 ? 200 : 150,
-            closeOnClick: true,
-            autoClose: true,
-            autoPanPadding: [10, 10]
-        });
-    }
-    
     marker.on('click', function(e) {
         L.DomEvent.stopPropagation(e);
+        
+        // Fermer toutes les popups existantes
+        map.closePopup();
         
         // Effet sur l'icône
         const iconElement = this.getElement();
@@ -234,7 +238,7 @@ function setupBassinHandler(marker, bassinLayer) {
             if (el !== iconElement) el.classList.remove('marker-active');
         });
         
-        // Afficher dans le volet droit
+        // Afficher SEULEMENT dans le volet droit (pas de popup Leaflet)
         showPoiInSidePanel(this.poiData);
         
         if (bassinLayer) {
@@ -256,22 +260,6 @@ function setupBassinHandler(marker, bassinLayer) {
         }
     });
     
-    marker.on('popupclose', function() {
-        if (bassinLayer && map.hasLayer(bassinLayer)) {
-            map.removeLayer(bassinLayer);
-        }
-        // Remettre le marqueur dans le cluster
-        if (map.hasLayer(marker)) {
-            map.removeLayer(marker);
-            markers.addLayer(marker);
-        }
-        // Supprimer l'effet de l'icône
-        const iconElement = this.getElement();
-        if (iconElement) {
-            iconElement.classList.remove('marker-active');
-        }
-    });
-    
     // Supprimer la zone quand le volet se ferme
     document.addEventListener('DOMContentLoaded', function() {
         const closeSidePanel = document.querySelector('.close-side-panel');
@@ -284,6 +272,11 @@ function setupBassinHandler(marker, bassinLayer) {
                         map.removeLayer(marker);
                         markers.addLayer(marker);
                     }
+                }
+                // Supprimer l'effet de l'icône
+                const iconElement = marker.getElement();
+                if (iconElement) {
+                    iconElement.classList.remove('marker-active');
                 }
             });
         }

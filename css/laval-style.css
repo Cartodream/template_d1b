@@ -138,6 +138,35 @@
     accent-color: #9f5cc0; /* Couleur des cases à cocher */
 }
 
+/* Styles identiques pour le panneau latéral mobile */
+.side-panel .filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.side-panel .filter-options label {
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    padding: 4px 0;
+    cursor: pointer;
+}
+
+.side-panel .filter-options span {
+    color: inherit !important;
+}
+
+.side-panel .filter-options input[type="checkbox"]:checked + span {
+    font-weight: 600;
+    color: #500878 !important;
+}
+
+.side-panel .filter-options input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: #9f5cc0;
+}
+
 /* Boutons de filtres */
 .filter-buttons {
     display: flex;
@@ -161,7 +190,8 @@
 }
 
 /* Override pour ressembler aux boutons POI */
-.filters-panel .select-all, .filters-panel .deselect-all {
+.filters-panel .select-all, .filters-panel .deselect-all,
+.side-panel .select-all, .side-panel .deselect-all {
     padding: 5px 10px !important;
     background: #b7d432 !important;
     color: black !important;
@@ -173,7 +203,8 @@
     font-weight: normal !important;
 }
 
-.filters-panel .select-all:hover, .filters-panel .deselect-all:hover {
+.filters-panel .select-all:hover, .filters-panel .deselect-all:hover,
+.side-panel .select-all:hover, .side-panel .deselect-all:hover {
     background: #8f993e !important;
     color: black !important;
     transform: none !important;
@@ -297,4 +328,32 @@
     width: 100%;
     height: 15px;
     background-color: #8f993e;
+}
+
+/* Fond gris pour le panneau liste des POI */
+#side-panel {
+    background: rgba(128, 128, 118, 0.75) !important;
+}
+
+#side-panel .poi-list {
+    background: rgba(128, 128, 118, 0.75) !important;
+}
+
+/* Fond gris pour les vignettes POI */
+.poi-card {
+    background-color: rgba(128, 128, 118, 0.75) !important;
+}
+
+.poi-content {
+    background-color: rgba(128, 128, 118, 0.75) !important;
+}
+
+/* Texte de localisation en blanc */
+.poi-location {
+    color: #fff !important;
+}
+
+/* Fond gris pour le contenu du panneau fondation */
+#fondation-panel .fondation-content {
+    background: rgba(128, 128, 118, 0.75) !important;
 }

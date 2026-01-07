@@ -347,8 +347,20 @@ function initFilters() {
 
 // Mise à jour des marqueurs selon les filtres
 function updateMarkers() {
-    // Supprimer tous les marqueurs
+    // Supprimer tous les marqueurs du cluster
     markers.clearLayers();
+    
+    // Supprimer aussi les marqueurs individuels (orchidées) qui pourraient être sur la carte
+    map.eachLayer(function(layer) {
+        if (layer instanceof L.Marker && layer.poiData) {
+            map.removeLayer(layer);
+        }
+    });
+    
+    // Supprimer les zones d'orchidées si elles sont affichées
+    if (typeof removeOrchideeZones === 'function') {
+        removeOrchideeZones();
+    }
     
     // Parcourir toutes les catégories et sous-catégories
     for (const category in allMarkers) {

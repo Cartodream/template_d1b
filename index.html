@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carte Interactive - OPTH</title>
+    <title>Carte Interactive - OTPH</title>
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -15,8 +15,8 @@
     <!-- Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     
-    <!-- Google Fonts - Polices pour le thème viking -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts - Police Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <!-- CSS OPTIMISÉ - ARCHITECTURE STABLE -->
     <!-- 1. Thème décoratif (styles layout désactivés) -->
@@ -30,6 +30,16 @@
     <link rel="stylesheet" href="css/mobile-fix.css">
     <link rel="stylesheet" href="css/map-controls.css">
     <link rel="stylesheet" href="css/popup-effects.css">
+    <!-- 4. Override Montserrat (PRIORITÉ MAXIMALE) -->
+    <link rel="stylesheet" href="css/montserrat-override.css">
+    <!-- Correction Font Awesome -->
+    <link rel="stylesheet" href="css/fontawesome-fix.css">
+    <!-- Logo header -->
+    <link rel="stylesheet" href="css/header-logo.css">
+    <!-- Amélioration images POI -->
+    <link rel="stylesheet" href="css/poi-images-fix.css">
+    <!-- Fix final mobile (PRIORITÉ ABSOLUE) -->
+    <link rel="stylesheet" href="css/mobile-final-fix.css">
     
     <!-- Scripts critiques -->
     <script src="script/force-default-filters.js"></script>
@@ -42,6 +52,7 @@
 
         <!-- Titre de la page -->
         <div class="page-title viking-border">
+            <img src="image/logo-office-de-tourisme3.jpg" alt="Office de Tourisme" class="header-logo">
             <h1>Carte interactive</h1>
         </div>
 
@@ -64,9 +75,9 @@
                     <div class="filter-group">
                         <h3 class="filter-title active">Patrimoine Architectural</h3>
                         <div class="filter-options" style="display: block;">
-                            <label><input type="checkbox" data-category="patrimoine_architectural" data-subcategory="patrimoine_bâti_monumental" checked> Patrimoine bâti monumental</label>
-                            <label><input type="checkbox" data-category="patrimoine_architectural" data-subcategory="patrimoine_religieux" checked> Patrimoine Religieux</label>
-                            <label><input type="checkbox" data-category="patrimoine_architectural" data-subcategory="bâti_traditionnel" checked> Bâti Traditionnel</label>
+                            <label><input type="checkbox" data-category="patrimoine_architectural" data-subcategory="patrimoine_bâti_monumental" checked><span> Patrimoine bâti monumental</span></label>
+                            <label><input type="checkbox" data-category="patrimoine_architectural" data-subcategory="patrimoine_religieux" checked><span> Patrimoine Religieux</span></label>
+                            <label><input type="checkbox" data-category="patrimoine_architectural" data-subcategory="bâti_traditionnel" checked><span> Bâti Traditionnel</span></label>
                         </div>
                     </div>
                     
@@ -89,16 +100,16 @@
                     <div class="filter-group">
                         <h3 class="filter-title">Patrimoine Mémoriel</h3>
                         <div class="filter-options" style="display: none;">
-                            <label><input type="checkbox" data-category="patrimoine_memoriel" data-subcategory="personnages_célèbres"> Personnages célèbres</label>
-                            <label><input type="checkbox" data-category="patrimoine_memoriel" data-subcategory="musées"> Musées</label>
-                            <label><input type="checkbox" data-category="patrimoine_memoriel" data-subcategory="lieux_de_mémoire"> Lieux de Mémoire</label>
+                            <label><input type="checkbox" data-category="patrimoine_memoriel" data-subcategory="personnages_célèbres"><span> Personnages célèbres</span></label>
+                            <label><input type="checkbox" data-category="patrimoine_memoriel" data-subcategory="musées"><span> Musées</span></label>
+                            <label><input type="checkbox" data-category="patrimoine_memoriel" data-subcategory="lieux_de_mémoire"><span> Lieux de Mémoire</span></label>
                         </div>
                     </div>
                     
                     <div class="filter-group">
                         <h3 class="filter-title">Autres Points</h3>
                         <div class="filter-options" style="display: none;">
-                            <label><input type="checkbox" data-category="autres_points" data-subcategory="curiosité"> Curiosité</label>
+                            <label><input type="checkbox" data-category="autres_points" data-subcategory="curiosité"><span> Curiosité</span></label>
                         </div>
                     </div>
                     
@@ -133,47 +144,47 @@
     <div class="side-panel" id="explorer-panel">
         <div class="side-panel-header">
             <h2>Explorer</h2>
-            <button class="close-explorer-panel"><i class="fas fa-times"></i></button>
+            <button class="close-explorer-panel"></button>
         </div>
         <div class="explorer-content">
             <div class="filter-group">
                 <h3 class="filter-title active">Patrimoine Architectural</h3>
                 <div class="filter-options" style="display: block;">
-                    <label><input type="checkbox" data-category="patrimoine_architectural" data-subcategory="patrimoine_bâti_monumental" checked> Patrimoine bâti monumental</label>
-                    <label><input type="checkbox" data-category="patrimoine_architectural" data-subcategory="patrimoine_religieux" checked> Patrimoine Religieux</label>
-                    <label><input type="checkbox" data-category="patrimoine_architectural" data-subcategory="bâti_traditionnel" checked> Bâti Traditionnel</label>
+                    <label><input type="checkbox" data-category="patrimoine_architectural" data-subcategory="patrimoine_bâti_monumental" checked><span> Patrimoine bâti monumental</span></label>
+                    <label><input type="checkbox" data-category="patrimoine_architectural" data-subcategory="patrimoine_religieux" checked><span> Patrimoine Religieux</span></label>
+                    <label><input type="checkbox" data-category="patrimoine_architectural" data-subcategory="bâti_traditionnel" checked><span> Bâti Traditionnel</span></label>
                 </div>
             </div>
             
             <div class="filter-group">
                 <h3 class="filter-title">Patrimoine Naturel</h3>
                 <div class="filter-options" style="display: none;">
-                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="etangs_et_rivières"> Etangs et Rivières</label>
-                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="effraie"> Effraie</label>
-                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="chevêche"> Chevêche</label>
-                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="flore"> Flore</label>
-                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="rapace"> Rapace</label>
-                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="heron"> Héron</label>
-                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="forêts_et_parcs"> Forêts et Parcs</label>
-                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="chauve_souris"> Chauve Souris</label>
-                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="cervidés"> Cervidés</label>
-                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="hirondelle"> Hirondelle</label>
+                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="etangs_et_rivières"><span> Etangs et Rivières</span></label>
+                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="effraie"><span> Effraie</span></label>
+                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="chevêche"><span> Chevêche</span></label>
+                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="flore"><span> Flore</span></label>
+                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="rapace"><span> Rapace</span></label>
+                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="heron"><span> Héron</span></label>
+                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="forêts_et_parcs"><span> Forêts et Parcs</span></label>
+                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="chauve_souris"><span> Chauve Souris</span></label>
+                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="cervidés"><span> Cervidés</span></label>
+                    <label><input type="checkbox" data-category="patrimoine_naturel" data-subcategory="hirondelle"><span> Hirondelle</span></label>
                 </div>
             </div>
             
             <div class="filter-group">
                 <h3 class="filter-title">Patrimoine Mémoriel</h3>
                 <div class="filter-options" style="display: none;">
-                    <label><input type="checkbox" data-category="patrimoine_memoriel" data-subcategory="personnages_célèbres"> Personnages célèbres</label>
-                    <label><input type="checkbox" data-category="patrimoine_memoriel" data-subcategory="musées"> Musées</label>
-                    <label><input type="checkbox" data-category="patrimoine_memoriel" data-subcategory="lieux_de_mémoire"> Lieux de Mémoire</label>
+                    <label><input type="checkbox" data-category="patrimoine_memoriel" data-subcategory="personnages_célèbres"><span> Personnages célèbres</span></label>
+                    <label><input type="checkbox" data-category="patrimoine_memoriel" data-subcategory="musées"><span> Musées</span></label>
+                    <label><input type="checkbox" data-category="patrimoine_memoriel" data-subcategory="lieux_de_mémoire"><span> Lieux de Mémoire</span></label>
                 </div>
             </div>
             
             <div class="filter-group">
                 <h3 class="filter-title">Autres Points</h3>
                 <div class="filter-options" style="display: none;">
-                    <label><input type="checkbox" data-category="autres_points" data-subcategory="curiosité"> Curiosité</label>
+                    <label><input type="checkbox" data-category="autres_points" data-subcategory="curiosité"><span> Curiosité</span></label>
                 </div>
             </div>
             
@@ -188,7 +199,7 @@
     <div class="side-panel" id="side-panel">
         <div class="side-panel-header">
             <h2>Liste des points d'intérêt</h2>
-            <button class="close-side-panel"><i class="fas fa-times"></i></button>
+            <button class="close-side-panel"></button>
         </div>
         <div class="poi-list" id="poi-list">
             <!-- Les POIs seront générés ici par JavaScript -->
@@ -199,7 +210,7 @@
     <div class="side-panel" id="fondation-panel">
         <div class="side-panel-header">
             <h2>Fondation du Patrimoine</h2>
-            <button class="close-fondation-panel"><i class="fas fa-times"></i></button>
+            <button class="close-fondation-panel"></button>
         </div>
         <div class="fondation-content">
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
