@@ -15,10 +15,10 @@
 }
 
 /* Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Raleway:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
 
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   color: var(--text);
   line-height: 1.6;
   background-color: var(--light);
@@ -133,28 +133,6 @@ body {
   position: relative;
 }
 
-.filter-group::before {
-  content: '';
-  position: absolute;
-  top: -5px;
-  left: 10px;
-  width: 10px;
-  height: 10px;
-  background: #87A96B;
-  border-radius: 50%;
-}
-
-.filter-group::after {
-  content: '';
-  position: absolute;
-  top: -5px;
-  right: 10px;
-  width: 10px;
-  height: 10px;
-  background: #87A96B;
-  border-radius: 50%;
-}
-
 .filter-title {
   font-family: 'Cinzel', serif;
   font-size: 1.1rem;
@@ -216,40 +194,21 @@ body {
 
 .select-all, .deselect-all {
   flex: 1;
-  padding: 0.8rem;
-  background: var(--primary);
+  padding: 5px 10px;
+  background: #8f993e;
   color: white;
   border: none;
-  border-radius: var(--radius);
-  font-family: 'Raleway', sans-serif;
-  font-weight: 600;
+  border-radius: 3px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9em;
   cursor: pointer;
-  transition: var(--transition);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  position: relative;
-  overflow: hidden;
-}
-
-.select-all::before, .deselect-all::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: rgba(255,255,255,0.2);
-  transition: all 0.5s ease;
-}
-
-.select-all:hover::before, .deselect-all:hover::before {
-  left: 100%;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .select-all:hover, .deselect-all:hover {
-  background: var(--dark);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  background: #6B8A52;
 }
 
 /* Map Container - DÉSACTIVÉ - Voir laval-style.css */
@@ -619,20 +578,20 @@ body {
 .marker-cluster-small,
 .marker-cluster-medium,
 .marker-cluster-large {
-  background-color: rgba(135, 169, 107, 0.6);
+  background-color: rgba(183, 212, 50, 0.6);
 }
 
 .marker-cluster-small div,
 .marker-cluster-medium div,
 .marker-cluster-large div {
-  background-color: rgba(135, 169, 107, 0.8);
+  background-color: rgba(143, 153, 62, 0.8);
   color: #F5F5DC;
 }
 
 .marker-cluster {
   background-clip: padding-box;
   border-radius: 20px;
-  border: 2px solid #87A96B;
+  border: 2px solid #b7d432;
 }
 
 .marker-cluster div {

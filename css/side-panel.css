@@ -18,7 +18,7 @@
 
 .side-panel-header {
     padding: 15px;
-    background-color: #87A96B;
+    background-color: #8f993e;
     color: white;
     display: flex;
     justify-content: space-between;
@@ -31,12 +31,27 @@
     font-family: 'Cinzel', serif;
 }
 
-.close-side-panel, .close-fondation-panel {
+.close-side-panel, .close-fondation-panel, .close-explorer-panel {
     background: none;
     border: none;
     color: white;
     font-size: 20px;
     cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-side-panel::before, .close-fondation-panel::before, .close-explorer-panel::before {
+    content: '×';
+    font-size: 24px;
+    line-height: 1;
+}
+
+.close-side-panel *, .close-fondation-panel *, .close-explorer-panel * {
+    display: none;
 }
 
 .poi-list, .fondation-poi-list, .explorer-content {
@@ -88,9 +103,10 @@
 
 .poi-category {
     display: block;
-    color: #87A96B;
+    color: rgb(196, 214, 0);
     margin-bottom: 10px;
     font-size: 0.9em;
+    font-weight: 600;
 }
 
 .poi-description {
@@ -107,7 +123,7 @@
 .poi-button {
     display: inline-block;
     padding: 5px 10px;
-    background-color: #87A96B;
+    background-color: #8f993e;
     color: white;
     text-decoration: none;
     border-radius: 3px;
